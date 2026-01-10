@@ -85,7 +85,7 @@ jobs:
 
       # 添加安全扫描功能，仅在推送镜像且提供了安全令牌时运行
       - name: Sysdig Secure Scan
-        if: ${{ inputs.push && secrets.SECURE_API_TOKEN != null }}
+        if: ${{ inputs.push }}
         uses: sysdiglabs/securescan-action@v2
         with:
           secure_api_token: ${{ secrets.SECURE_API_TOKEN }}
