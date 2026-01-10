@@ -117,7 +117,8 @@ jobs:
         run: |
           ${GITHUB_WORKSPACE}/cache/sysdig-cli-scanner \
             --apiurl ${SYSDIG_SECURE_ENDPOINT} \
-            docker://${{ inputs.acr-registry }}/${{ inputs.acr-namespace }}/${{ inputs.image-name }}
             --console-log \
             --dbpath=${GITHUB_WORKSPACE}/cache/db/ \
-            --cachepath=${GITHUB_WORKSPACE}/cache/scanner-cache/
+            --cachepath=${GITHUB_WORKSPACE}/cache/scanner-cache/ \
+            ${{ inputs.acr-registry }}/${{ inputs.acr-namespace }}/${{ inputs.image-name }}
+            
