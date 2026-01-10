@@ -11,6 +11,7 @@ WORKDIR /usr/local/app
 RUN npm install -g nodemon
 
 COPY package*.json ./
+COPY package-lock.json ./
 
 RUN npm ci && \
  npm cache clean --force && \
