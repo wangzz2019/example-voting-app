@@ -10,6 +10,7 @@ jobs:
   build-and-push:
     uses: ./.github/workflows/reusable-docker-build-acr.yaml
     with:
+      context: ./result
       image-name: samplevotingapp_result
       tags: latest,${{ github.sha }}
       push: true
