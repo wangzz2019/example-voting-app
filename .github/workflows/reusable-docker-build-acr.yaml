@@ -36,6 +36,13 @@ on:
         required: false
         type: string
         default: '.'
+    secrets:
+      ACR_REGISTRY_USER:
+        required: true
+      ACR_REGISTRY_PASSWORD:
+        required: true
+      SECURE_API_TOKEN:
+        required: false
 
 jobs:
   build:
@@ -76,9 +83,9 @@ jobs:
           tags: ${{ steps.tags.outputs.full_tags }}
           platforms: linux/amd64  # 可根据需要添加 linux/arm64 等
 
-      # 添加安全扫描功能，仅在推送镜像时运行
+      # 添加安全扫描功能，仅在推送镜像且提供了安全令牌时运行
       - name: Sysdig Secure Scan
-        if: ${{ inputs.push && secrets.SECURE_API_TOKEN != '' }}
+        if: ${{ inputs.push && secrets.SECURE_API_TOKEN != null }}
         uses: sysdiglabs/securescan-action@v2
         with:
           secure_api_token: ${{ secrets.SECURE_API_TOKEN }}
