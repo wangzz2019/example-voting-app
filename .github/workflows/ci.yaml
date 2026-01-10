@@ -2,6 +2,7 @@
 name: Build and Push to ACR
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
 
