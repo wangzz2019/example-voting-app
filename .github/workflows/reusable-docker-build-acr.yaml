@@ -114,6 +114,7 @@ jobs:
         env:
           SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }}
           IMAGE_NAME: ${{ inputs.image-name }}
+          SYSDIG_SECURE_ENDPOINT: "https://app.au1.sysdig.com/"
         run: |
           ${GITHUB_WORKSPACE}/cache/sysdig-cli-scanner \
             --apiurl ${SYSDIG_SECURE_ENDPOINT} \
@@ -121,4 +122,4 @@ jobs:
             --dbpath=${GITHUB_WORKSPACE}/cache/db/ \
             --cachepath=${GITHUB_WORKSPACE}/cache/scanner-cache/ \
             ${{ inputs.acr-registry }}/${{ inputs.acr-namespace }}/${{ inputs.image-name }}
-            
+
