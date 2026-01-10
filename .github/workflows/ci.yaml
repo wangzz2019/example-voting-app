@@ -1,3 +1,10 @@
+env:
+    SYSDIG_SECURE_ENDPOINT: "https://app.au1.sysdig.com"
+    REGISTRY_HOST: "jackacr-registry.ap-northeast-1.cr.aliyuncs.com"
+    IMAGE_NAME: "samplevotingapp_result"
+    IMAGE_TAG: "latest"
+    DOCKERFILE_CONTEXT: "./new-scan-engine"
+
 # .github/workflows/ci.yml
 name: Build and Push to ACR
 
