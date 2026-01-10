@@ -26,6 +26,11 @@ on:
         description: '阿里云 ACR 命名空间（通常是你的阿里云账号 ID 或自定义 namespace）'
         required: true
         type: string
+      dockerfile:
+        description: 'Dockerfile 路径（相对于仓库根目录）'
+        required: false
+        type: string
+        default: './Dockerfile'
 
 jobs:
   build:
@@ -61,6 +66,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ${{ inputs.dockerfile }}
           push: ${{ inputs.push }}
           tags: ${{ steps.tags.outputs.full_tags }}
           platforms: linux/amd64  # 可根据需要添加 linux/arm64 等
