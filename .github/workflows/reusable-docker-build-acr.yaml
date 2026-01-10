@@ -110,13 +110,13 @@ jobs:
             echo "sysdig-cli-scanner latest version already downloaded"
           fi
 
-    - name: Scan the image using sysdig-cli-scanner
-      env:
-        SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }}
-      run: |
-        ${GITHUB_WORKSPACE}/cache/sysdig-cli-scanner \
-          --apiurl ${SYSDIG_SECURE_ENDPOINT} \
-          docker://${REGISTRY_HOST}/${{ secrets.REGISTRY_USER }}/${IMAGE_NAME}:${IMAGE_TAG} \
-          --console-log \
-          --dbpath=${GITHUB_WORKSPACE}/cache/db/ \
-          --cachepath=${GITHUB_WORKSPACE}/cache/scanner-cache/
+      - name: Scan the image using sysdig-cli-scanner
+        env:
+          SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }}
+        run: |
+          ${GITHUB_WORKSPACE}/cache/sysdig-cli-scanner \
+            --apiurl ${SYSDIG_SECURE_ENDPOINT} \
+            docker://${REGISTRY_HOST}/${{ secrets.REGISTRY_USER }}/${IMAGE_NAME}:${IMAGE_TAG} \
+            --console-log \
+            --dbpath=${GITHUB_WORKSPACE}/cache/db/ \
+            --cachepath=${GITHUB_WORKSPACE}/cache/scanner-cache/
