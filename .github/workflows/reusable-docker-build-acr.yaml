@@ -85,15 +85,15 @@ jobs:
 
       # 可选的安全扫描功能
       - name: Build and save
-      uses: docker/build-push-action@v3
-      with:
-        context: ./new-scan-engine
-        tags: jackacr-registry.ap-northeast-1.cr.aliyuncs.com/jacknamespace/samplevotingapp_result
-        load: true
+        uses: docker/build-push-action@v3
+        with:
+          context: ./new-scan-engine
+          tags: jackacr-registry.ap-northeast-1.cr.aliyuncs.com/jacknamespace/samplevotingapp_result
+          load: true
 
       - name: Setup cache
-      uses: actions/cache@v3
-      with:
-        path: cache
-        key: ${{ runner.os }}-cache-${{ hashFiles('**/sysdig-cli-scanner', '**/latest_version.txt', '**/db/main.db.meta.json', '**/scanner-cache/inlineScannerCache.db') }}
-        restore-keys: ${{ runner.os }}-cache-
+        uses: actions/cache@v3
+        with:
+          path: cache
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/sysdig-cli-scanner', '**/latest_version.txt', '**/db/main.db.meta.json', '**/scanner-cache/inlineScannerCache.db') }}
+          restore-keys: ${{ runner.os }}-cache-
