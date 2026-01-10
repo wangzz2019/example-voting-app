@@ -31,13 +31,13 @@ jobs:
       packages: write # needed to push docker image to ghcr.io
       pull-requests: write # needed to create and update comments in PRs
     
-    secrets:
+    # secrets:
 
-      # Only needed if with:dockerhub-enable is true below
-      dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #   # Only needed if with:dockerhub-enable is true below
+    #   dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
 
-      # Only needed if with:dockerhub-enable is true below
-      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+    #   # Only needed if with:dockerhub-enable is true below
+    #   dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
 
     with:
       
