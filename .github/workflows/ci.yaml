@@ -12,6 +12,7 @@ jobs:
       image-name: samplevotingapp_result
       tags: latest,${{ github.sha }}
       push: true
+      dockerfile: ./result/Dockerfile
       acr-registry: jackacr-registry.ap-northeast-1.cr.aliyuncs.com   # 替换为你 ACR 的地域
       acr-namespace: jacknamespace                    # 替换为你的 ACR 命名空间
     secrets: inherit  # 允许子工作流使用父工作流的 secrets
