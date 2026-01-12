@@ -129,7 +129,7 @@ jobs:
 
       - name: cat file
         run: |
-          cat results.sarif
+          cat report.json
 
       - name: Upload scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
