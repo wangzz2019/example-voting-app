@@ -70,20 +70,21 @@ def generate_report(data):
 
             result = {
                 "ruleId": f"{vuln['name']}",
+                "ruleIndex": ruleIds.index(vuln['name']),
                 "level": f"{check_level(vuln['severity']['value'])}",
                 "message": {
-                    "text": f"Full image scan results in Sysdig UI: [{data['result']['metadata']['pullString']} scan result]({data['info']['resultUrl']})\nPackage: [{package['name']}]({baseUrl}/content?filter=freeText+in+(\"{package['name']}\"))\nPackage type: {package['type']}\nInstalled Version: {package['version']}\nPackage path: {package['path']}\nVulnerability: [{vuln['name']}]({baseUrl}/vulnerabilities?filter=freeText+in+(\"{vuln['name']}\"))\nSeverity: {vuln['severity']['value']}\nCVSS Score: {vuln['cvssScore']['value']['score']}\nCVSS Version: {vuln['cvssScore']['value']['version']}\nCVSS Vector: {vuln['cvssScore']['value']['vector']}\nFixed Version: {(vuln['fixedInVersion'] if 'fixedInVersion' in vuln else '')}\nExploitable: {vuln['exploitable']}\nLink to NVD: [{vuln['name']}](https://nvd.nist.gov/vuln/detail/{vuln['name']})"
+                    "text": f"Package: {package['name']}\nPackage type: {package['type']}\nInstalled Version: {package['version']}\nPackage path: {package['path']}\nVulnerability: {vuln['name']}\nSeverity: {vuln['severity']['value']}\nCVSS Score: {vuln['cvssScore']['value']['score']}\nFixed Version: {(vuln['fixedInVersion'] if 'fixedInVersion' in vuln else 'N/A')}\nExploitable: {vuln['exploitable']}\nLink to NVD: https://nvd.nist.gov/vuln/detail/{vuln['name']}"
                 },
                 "locations": [
                     {
                         "physicalLocation": {
                             "artifactLocation": {
-                                "uri": f"{data['result']['metadata']['pullString']}",
+                                "uri": f"{package['name']}-{package['version']}",
                                 "uriBaseId": "ROOTPATH"
+                            },
+                            "description": {
+                                "text": f"Vulnerable package: {package['name']} version {package['version']}"
                             }
-                        },
-                        "message": {
-                            "text": f"{data['result']['metadata']['pullString']} - {package['name']}@{package['version']}"
                         }
                     }
                 ]
@@ -93,14 +94,19 @@ def generate_report(data):
     run = {
         "tool": {
             "driver": {
-                "fullName": "Sysdig Vulnerability CLI Scanner",
-                "informationUri": "https://docs.sysdig.com/en/docs/installation/sysdig-secure/install-vulnerability-cli-scanner",
                 "name": "sysdig-cli-scanner",
+                "fullName": "Sysdig Vulnerability CLI Scanner",
                 "version": f"{data['scanner']['version']}",
+                "informationUri": "https://docs.sysdig.com/en/docs/installation/sysdig-secure/install-vulnerability-cli-scanner",
                 "rules": rules
             }
         },
         "results": results,
+        "invocations": [
+            {
+                "executionSuccessful": True
+            }
+        ],
         "columnKind": "utf16CodeUnits",
         "properties": {
             "pullString": f"{data['result']['metadata']['pullString']}",
@@ -159,13 +165,12 @@ def main():
 
     # Simple validation of JSON file format
     try:
-        'metadata' in data
-        'vulnerabilties' in data
-        'packages' in data
-        'policies' in data
-        'info' in data
-    except:
-      LOG.info(f"Error: {filename}: JSON file is not from sysdig-cli-scanner!")
+        if not all(key in data for key in ['info', 'result']):
+            raise KeyError('Missing required keys in input data')
+        if not all(key in data['result'] for key in ['metadata', 'packages']):
+            raise KeyError('Missing required keys in result section')
+    except KeyError as e:
+      LOG.info(f"Error: {filename}: JSON file is not from sysdig-cli-scanner! {str(e)}")
       exit(parser.print_help())
 
     report = generate_report(data=data)
