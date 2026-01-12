@@ -53,8 +53,7 @@ def generate_report(data):
                     },
                     "helpUri": f"https://nvd.nist.gov/vuln/detail/{vuln['name']}",
                     "help": {
-                        "text": f"Vulnerability {vuln['name']}\nPackage: {package['name']}\nSeverity: {vuln['severity']['value']}\nCVSS Score: {vuln['cvssScore']['value']['score']}\nCVSS Version: {vuln['cvssScore']['value']['version']}\nCVSS Vector: {vuln['cvssScore']['value']['vector']}\nFixed Version: {(vuln['fixedInVersion'] if 'fixedInVersion' in vuln else '')}\nExploitable: {vuln['exploitable']}\nLink: [{vuln['name']}](https://nvd.nist.gov/vuln/detail/{vuln['name']})",
-                        "markdown": f"**Vulnerability {vuln['name']}**\n| Package | Severity| CVSS Score | CVSS Version | CVSS Vector | Fixed Version | Exploitable | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n|{package['name']}|{vuln['severity']['value']}|{vuln['cvssScore']['value']['score']}|{vuln['cvssScore']['value']['version']}|{vuln['cvssScore']['value']['vector']}|{(vuln['fixedInVersion'] if 'fixedInVersion' in vuln else '')}|{vuln['exploitable']}|[{vuln['name']}](https://nvd.nist.gov/vuln/detail/{vuln['name']})|"
+                        "text": f"Vulnerability {vuln['name']}\nPackage: {package['name']}\nSeverity: {vuln['severity']['value']}\nCVSS Score: {(vuln['cvssScore']['value']['score'] if 'cvssScore' in vuln and 'value' in vuln['cvssScore'] and 'score' in vuln['cvssScore']['value'] else 'N/A')}\nCVSS Version: {(vuln['cvssScore']['value']['version'] if 'cvssScore' in vuln and 'value' in vuln['cvssScore'] and 'version' in vuln['cvssScore']['value'] else 'N/A')}\nCVSS Vector: {(vuln['cvssScore']['value']['vector'] if 'cvssScore' in vuln and 'value' in vuln['cvssScore'] and 'vector' in vuln['cvssScore']['value'] else 'N/A')}\nFixed Version: {(vuln['fixedInVersion'] if 'fixedInVersion' in vuln else 'N/A')}\nExploitable: {vuln['exploitable']}\nLink: https://nvd.nist.gov/vuln/detail/{vuln['name']}"
                     },
                     "properties": {
                         "precision": "very-high",
@@ -73,7 +72,7 @@ def generate_report(data):
                 "ruleIndex": ruleIds.index(vuln['name']),
                 "level": f"{check_level(vuln['severity']['value'])}",
                 "message": {
-                    "text": f"Package: {package['name']}\nPackage type: {package['type']}\nInstalled Version: {package['version']}\nPackage path: {package['path']}\nVulnerability: {vuln['name']}\nSeverity: {vuln['severity']['value']}\nCVSS Score: {vuln['cvssScore']['value']['score']}\nFixed Version: {(vuln['fixedInVersion'] if 'fixedInVersion' in vuln else 'N/A')}\nExploitable: {vuln['exploitable']}\nLink to NVD: https://nvd.nist.gov/vuln/detail/{vuln['name']}"
+                    "text": f"Package: {package['name']}\nPackage type: {package['type']}\nInstalled Version: {package['version']}\nPackage path: {package['path']}\nVulnerability: {vuln['name']}\nSeverity: {vuln['severity']['value']}\nCVSS Score: {(vuln['cvssScore']['value']['score'] if 'cvssScore' in vuln and 'value' in vuln['cvssScore'] and 'score' in vuln['cvssScore']['value'] else 'N/A')}\nFixed Version: {(vuln['fixedInVersion'] if 'fixedInVersion' in vuln else 'N/A')}\nExploitable: {vuln['exploitable']}\nLink to NVD: https://nvd.nist.gov/vuln/detail/{vuln['name']}"
                 },
                 "locations": [
                     {
