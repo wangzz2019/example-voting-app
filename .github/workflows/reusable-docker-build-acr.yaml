@@ -127,6 +127,10 @@ jobs:
         run: |
           python3 ./new-scan-engine/sysdig-to-sarif.py report.json > results.sarif
 
+      - name: cat file
+        run: |
+          cat results.sarif
+
       - name: Upload scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
